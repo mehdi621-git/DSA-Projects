@@ -1,0 +1,3 @@
+The Tic Tac Toe project in C++ is a console-based game where two players alternate placing **X** and **O** on a 3x3 grid, with win/draw logic checking after each move.
+It uses basic C++ concepts like arrays, loops, and functions to manage the game state and validate player inputs. This project helps beginners practice structured programming
+and problem-solving in C++.
