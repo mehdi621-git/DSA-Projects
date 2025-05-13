@@ -1,0 +1,2 @@
+This project is a simple Birthday Management System that stores names and birth dates using an array of structures. It allows users to add birthdays, view all entries, 
+search for birthdays by a specific date, and sort them by month and day. The system demonstrates basic data structures, linear search, sorting, and pointer usage in C++.
