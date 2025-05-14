@@ -34,8 +34,3 @@
 
 <h2>Use Case:</h2>
 <p>Perfect for practicing <strong>real-time input handling</strong>, <strong>multithreading</strong>, and <strong>console-based quiz logic</strong> using C++.</p>
-
-<h2>How to Run:</h2>
-<pre><code>g++ -std=c++11 quiz.cpp -o quiz -pthread
-./quiz
-</code></pre>
