@@ -1,0 +1,5 @@
+This project is a simple text analysis tool written in C++.
+It can take input from a user or a text file and analyze the content.
+The tool counts words, characters, spaces, and line breaks.
+It also offers case-insensitive word frequency checking.
+This project demonstrates basic file handling, string parsing, and logic in C++.
