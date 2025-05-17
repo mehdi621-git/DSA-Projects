@@ -1,0 +1,4 @@
+The **Library Book Search System** is a project designed to help users efficiently search for books in a library's collection by title or author.
+It allows for storing book records using arrays or vectors and supports searching through linear or binary search methods. Users can input new books with details like 
+title, author, and ID. The system provides options to view, add, or remove books from the catalog. Sorting can also be applied to enhance search performance through binary 
+search.
