@@ -1,0 +1,4 @@
+The Bidding System project is a C++ based console application that simulates an online auction.
+Multiple users can place bids by entering their names and bid amounts. 
+The system stores all bids, continuously updates the highest bid, and sorts them in descending order.
+It uses core Data Structures and Algorithms like arrays, sorting, and structures. At the end of the auction, the system declares the highest bidder as the winner.
