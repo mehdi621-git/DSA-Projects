@@ -1,0 +1,3 @@
+atm         # Ignores compiled binary
+*.o         # Ignores object files
+.DS_Store   # (Mac) Ignores system files
