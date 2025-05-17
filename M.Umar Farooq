@@ -1,0 +1,3 @@
+This C++ Dictionary Application by M Umar Farooq allows users to add, delete, search, and sort word entries with their meanings. It features a simple console-based menu for 
+easy navigation and interaction. The program uses vectors to store data and includes alphabetical sorting functionality. Ideal for learning core C++ concepts like STL and file
+handling basics. Demonstrates efficient data management in a lightweight, user-friendly system.
