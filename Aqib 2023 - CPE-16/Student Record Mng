@@ -1,0 +1,41 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Student Record Management System - README</title>
+</head>
+<body style="font-family: Arial, sans-serif; line-height: 1.6; max-width: 800px; margin: auto; padding: 20px;">
+
+  <h1>Student Record Management System</h1>
+
+  <p>
+    This project is a simple <strong>Student Record Management System</strong> that allows users to manage student data effectively. The system is capable of:
+  </p>
+
+  <ul>
+    <li>Adding new student records (Name, Roll Number, Marks)</li>
+    <li>Sorting student records by name, roll number, or marks</li>
+    <li>Viewing all student records in an organized format</li>
+  </ul>
+
+  <h2>Features</h2>
+  <ul>
+    <li><strong>Add Student:</strong> Input student details such as name, roll number, and marks</li>
+    <li><strong>Sort Students:</strong> Sort by Name, Roll Number, or Marks (ascending or descending)</li>
+    <li><strong>View All:</strong> Display all students' records in a structured format</li>
+  </ul>
+
+  <h2>Technologies Used</h2>
+  <ul>
+    <li>Programming Language: C++</li>
+    <li>Terminal -based interface</li>
+    <li>Local Storage (Array)</li>
+  </ul>
+
+   
+
+  
+
+</body>
+</html>
