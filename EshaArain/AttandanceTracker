@@ -1,0 +1,458 @@
+#include <iostream>
+#include <fstream>
+#include <cstring>
+#include <cstdlib>
+#include <cctype>
+#include <conio.h>
+using namespace std;
+
+struct CourseInfo {
+    char university[50];
+    char department[50];
+    char courseName[50];
+    char courseCode[20];
+    char semester[20];
+    char session[20];
+    char instructor[50];
+};
+
+struct Student {
+    char name[50];
+    char rollNo[20];
+};
+
+CourseInfo currentCourse;
+Student students[100];
+int totalStudents = 0;
+bool courseInfoSet = false;
+
+void clearScreen() {
+    system("cls || clear");
+}
+
+void displayHeader() {
+    if(courseInfoSet) {
+        cout << "===================================================================================\n";
+        cout << "                   "<<currentCourse.university <<"\n"; 
+		cout << "                   Department:"<<currentCourse.department << "\n";
+		cout << "===================================================================================\n";
+        cout << "course :"<<currentCourse.courseName << " \n";
+		cout << "course code :"<<currentCourse.courseCode << "\n ";
+        cout << "Semester: " << currentCourse.semester <<"\n";
+		cout << "Session: " << currentCourse.session << "\n";
+		cout <<"Instructor:"<< currentCourse.instructor<<"\n";
+        cout << "==================================================================================\n\n";
+    }
+}
+
+void saveStudentsToFile() {
+    ofstream outFile("students.dat");
+    for(int i = 0; i < totalStudents; i++) {
+        outFile << students[i].rollNo << "," << students[i].name << "\n";
+    }
+    outFile.close();
+}
+
+void loadStudentsFromFile() {
+    ifstream inFile("students.dat");
+    if(!inFile) return;
+
+    char line[100];
+    while(inFile.getline(line, 100)) {
+        char* rollNo = strtok(line, ",");
+        char* name = strtok(NULL, ",");
+        
+        if(rollNo && name) {
+            strcpy(students[totalStudents].rollNo, rollNo);
+            strcpy(students[totalStudents].name, name);
+            totalStudents++;
+        }
+    }
+    inFile.close();
+}
+
+
+
+
+void setCourseInfo() {
+    cout << "\nEnter University Name: ";
+    cin.ignore();
+    cin.getline(currentCourse.university, 50);
+    
+    cout << "Enter Department: ";
+    cin.getline(currentCourse.department, 50);
+    
+    cout << "Enter Course Name: ";
+    cin.getline(currentCourse.courseName, 50);
+    
+    cout << "Enter Course Code: ";
+    cin.getline(currentCourse.courseCode, 20);
+    
+    cout << "Enter Semester: ";
+    cin.getline(currentCourse.semester, 20);
+    
+    cout << "Enter Session: ";
+    cin.getline(currentCourse.session, 20);
+    
+    cout<< "Enter Instructor Name:";
+     cin.getline(currentCourse.instructor,50);
+    
+    courseInfoSet = true;
+    
+    ofstream courseFile("course.dat");
+    courseFile << currentCourse.university << "\n"
+               << currentCourse.department << "\n"
+               << currentCourse.courseName << "\n"
+               << currentCourse.courseCode << "\n"
+               << currentCourse.semester << "\n"
+               << currentCourse.session<<"\n"
+               << currentCourse.instructor;
+    courseFile.close();
+    
+    cout << "\nCourse information saved successfully!\n";
+}
+
+void loadCourseInfo() {
+    ifstream courseFile("course.dat");
+    if(!courseFile) return;
+    
+    courseFile.getline(currentCourse.university, 50);
+    courseFile.getline(currentCourse.department, 50);
+    courseFile.getline(currentCourse.courseName, 50);
+    courseFile.getline(currentCourse.courseCode, 20);
+    courseFile.getline(currentCourse.semester, 20);
+    courseFile.getline(currentCourse.session, 20);
+    courseFile.getline(currentCourse.instructor,50);
+    
+    courseInfoSet = true;
+    courseFile.close();
+}
+
+void addStudent() {
+    static int max=-1;
+    char choice;
+    if(max==-1){
+    cout<<"enter total no of students for file it neither can exceed nor update \n";
+    cin>>max;
+}
+    do{
+    
+    if(totalStudents >= max) {
+        cout << "Maximum students reached!\n";
+        return;
+    }
+    
+    cout << "Enter student name: ";
+    cin.ignore();
+    cin.getline(students[totalStudents].name, 50);
+    
+    cout << "Enter roll no: ";
+    cin.getline(students[totalStudents].rollNo, 20);
+    
+    totalStudents++;
+    saveStudentsToFile();
+    cout << "\nStudent added successfully!\n";
+    cout<<"\n to continue adding press c or any key to exit :\n";
+    choice= getch();
+}while(tolower(choice)=='c');
+
+}
+
+void viewStudents() {
+    
+    
+    if(totalStudents == 0) {
+        cout << "No students added!\n";
+        return;
+    }
+    
+    cout << "         STUDENT LIST\n";
+    cout << "---------------------------------\n";
+    cout << "Roll No\t\tName\n";
+    cout << "------------\t-------------------\n";
+    for(int i = 0; i < totalStudents; i++) {
+        cout << students[i].rollNo << "\t" << students[i].name << "\n";
+    }
+}
+
+
+void deleteStudent() {
+char c;
+do{    
+    if(totalStudents == 0) {
+        cout << "No students to delete!\n";
+        return;
+    }
+viewStudents();
+    char rollNo[20];
+    cout << "Enter Roll Number to delete: ";
+    cin >> rollNo;
+
+    int foundIndex = -1;
+    for(int i = 0; i < totalStudents; i++) {
+        if(strcmp(students[i].rollNo, rollNo) == 0) {
+            foundIndex = i;
+            break;
+        }
+    }
+
+    if(foundIndex == -1) {
+        cout << "Student not found!\n";
+        return;
+    }
+
+    for(int i = foundIndex; i < totalStudents-1; i++) {
+        strcpy(students[i].name, students[i+1].name);
+        strcpy(students[i].rollNo, students[i+1].rollNo);
+    }
+
+    totalStudents--;
+    saveStudentsToFile();
+    cout << "Student deleted successfully!\n";
+    
+    cout<<"Remaining students are :\n";
+    viewStudents();
+    cout<<"to continue delete press c or any other key to exit:\n";
+    c=getch();
+    if(tolower(c)=='c')
+    clearScreen();
+}while(tolower(c)=='c');
+
+
+}
+
+void markAttendance() {
+    if(!courseInfoSet) {
+        cout << "Please set course information first!\n";
+        return;
+    }
+    
+    if(totalStudents == 0) {
+        cout << "No students added yet!\n";
+        return;
+    }
+    
+    char date[20];
+    cout << "Enter date (DD-MM-YYYY): ";
+    cin >> date;
+    
+    char filename[50] = "attendance_";
+    strcat(filename, date);
+    strcat(filename, ".txt");
+    
+    ofstream file(filename);
+    
+    file << "University: " << currentCourse.university << "\n";
+    file << "Department: " << currentCourse.department << "\n";
+    file << "Course: " << currentCourse.courseName << " (" << currentCourse.courseCode << ")\n";
+    file << "Semester: " << currentCourse.semester << " | Session: " << currentCourse.session << "\n";
+    file << "Attendance Date: " << date << "\n";
+    file << "---------------------------------\n";
+    file << "RollNo\t\tName\t\t\tStatus\n";
+    
+    
+    
+    for(int i = 0; i < totalStudents; i++) {
+        char status;
+        bool validInput = false;
+        
+        while(!validInput) {
+            cout << students[i].name << " (Roll No: " << students[i].rollNo << ") - Present (P/A)? ";
+            cin >> status;
+            
+            // Convert to uppercase for case-insensitive comparison
+            status = toupper(status);
+            
+            if(status == 'P' || status == 'A') {
+                validInput = true;
+                file << students[i].rollNo << "\t" << students[i].name << "\t";
+                
+                if(status == 'P')
+                    file << "Present\n";
+                else
+                    file << "Absent\n";
+            } else {
+                cout << "Invalid entry! Please enter P for Present or A for Absent.\n";
+                // Clear any remaining input in case user entered multiple characters
+                //cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            }
+        }
+    }
+    
+    file.close();
+    cout << "\nAttendance saved to " << filename << "\n";
+}
+void searchUpdateAttendance() {
+    
+    
+    if(totalStudents == 0) {
+        cout << "No students added yet!\n";
+        return;
+    }
+    
+    char date[20];
+    cout << "Enter date to search (DD-MM-YYYY): ";
+    cin >> date;
+    
+    char filename[50] = "attendance_";
+    strcat(filename, date);
+    strcat(filename, ".txt");
+    
+    ifstream file(filename);
+    if(!file) {
+        cout << "No attendance record for " << date << "!\n";
+        return;
+    }
+    
+    char rollNo[20];
+    cout << "Enter roll number to search: ";
+    cin >> rollNo;
+    
+    char tempFilename[50] = "temp_";
+    strcat(tempFilename, date);
+    strcat(tempFilename, ".txt");
+    ofstream tempFile(tempFilename);
+    
+    char line[100];
+    bool found = false;
+    
+    // Copy header lines
+    for(int i = 0; i < 6; i++) {
+        file.getline(line, 100);
+        tempFile << line << "\n";
+    }
+    
+    // Process attendance records
+    while(file.getline(line, 100)) {
+        char currentRoll[20], name[50], status[10];
+        sscanf(line, "%s %s %s", currentRoll, name, status);
+        
+        if(strcmp(currentRoll, rollNo) == 0) {
+            found = true;
+            char newStatus;
+            cout << "\nRecord found: " << line << "\n";
+            cout << "Update status (P/A): ";
+            cin >> newStatus;
+            
+            tempFile << currentRoll << "\t" << name << "\t";
+            if(toupper(newStatus) == 'P')
+                tempFile << "Present\n";
+            else
+                tempFile << "Absent\n";
+        } else {
+            tempFile << line << "\n";
+        }
+    }
+    
+    file.close();
+    tempFile.close();
+    
+    if(found) {
+        remove(filename);
+        rename(tempFilename, filename);
+        cout << "\nAttendance record updated successfully!\n";
+    } else {
+        remove(tempFilename);
+        cout << "\nRoll number not found in attendance records!\n";
+    }
+}
+
+void displayDayAttendance() {
+    
+    
+    char date[20];
+    cout << "Enter date to view (DD-MM-YYYY): ";
+    cin >> date;
+    
+    char filename[50] = "attendance_";
+    strcat(filename, date);
+    strcat(filename, ".txt");
+    
+    ifstream file(filename);
+    if(!file) {
+        cout << "No attendance record for " << date << "!\n";
+        return;
+    }
+    
+    cout << "\nATTENDANCE RECORD FOR " << date << "\n";
+    cout << "---------------------------------\n";
+    
+    char line[100];
+    while(file.getline(line, 100)) {
+        cout << line << "\n";
+    }
+    
+    file.close();
+}
+
+void sortStudents() {
+
+    
+    if(totalStudents == 0) {
+        cout << "No students to sort!\n";
+        return;
+    }
+    
+    for(int i = 0; i < totalStudents-1; i++) {
+        for(int j = 0; j < totalStudents-i-1; j++) {
+            if(strcmp(students[j].name, students[j+1].name) > 0) {
+                Student temp = students[j];
+                students[j] = students[j+1];
+                students[j+1] = temp;
+            }
+        }
+    }
+    
+    saveStudentsToFile();
+    cout << "Students sorted alphabetically!\n";
+    viewStudents();
+}
+
+int main() {
+    loadCourseInfo();
+    loadStudentsFromFile();
+    
+    int choice;
+    while(1) {
+        clearScreen();
+        displayHeader();
+        
+        cout << "MAIN MENU\n";
+        cout << "1. Course Information\n";
+        cout << "2. Add Student\n";
+        cout << "3. Delete Student\n";
+        cout << "4. Mark Attendance\n";
+        cout << "5. View Students\n";
+        cout << "6. Search/Update Attendance\n";
+        cout << "7. View Day's Attendance\n";
+        cout << "8. Sort Students\n";
+        cout << "9. Exit\n";
+        cout << "Enter choice: ";
+        cin >> choice;
+        
+        clearScreen();
+        displayHeader();
+        
+        switch(choice) {
+            case 1: setCourseInfo(); break;
+            case 2: addStudent(); break;
+            case 3: deleteStudent(); break;
+            case 4: markAttendance(); break;
+            case 5: viewStudents(); break;
+            case 6: searchUpdateAttendance(); break;
+            case 7: displayDayAttendance(); break;
+            case 8: sortStudents(); break;
+            case 9: 
+                cout << "Exiting program...\n";
+                saveStudentsToFile();
+                return 0;
+                            
+            default: cout << "Invalid choice!\n";
+        }
+        
+        cout << "\nPress Enter to continue...";
+        cin.ignore();
+        cin.get();
+    }
+    
+}
