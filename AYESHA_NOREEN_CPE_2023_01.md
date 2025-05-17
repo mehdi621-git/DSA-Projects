@@ -42,7 +42,7 @@ chatbot/
 ---
 
 ### Learn more about it by running it here 
-[TerBot - A Robust Terminal Based Chat System](https://github.dev/khatoonintech/TerBot)
+[TerBot - A Robust Terminal Based Chat System](https://github.com/khatoonintech/TerBot)
 
 ---
 
